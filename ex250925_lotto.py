@@ -1,5 +1,6 @@
 import random
 
+
 # Generiert n eindeutige Zufallszahlen aus dem Bereich 1 bis out_of (inklusive)
 def get_numbers(n=6, out_of=45, verbose=False):
     if n > out_of:
@@ -24,6 +25,7 @@ def get_numbers(n=6, out_of=45, verbose=False):
         print("Readable:\t", numbers)
     return numbers[out_of - n:out_of]
 
+
 # Analysiert eine bestimmte Anzahl an Ziehungen und zählt, wie oft jede Zahl gezogen wurde
 def analyze_numbers(amount, n=6, out_of=45):
     d = {}
@@ -36,6 +38,7 @@ def analyze_numbers(amount, n=6, out_of=45):
                 d[num] = 1
     return d
 
+
 # Berechnet und zeigt die Statistik der gezogenen Zahlen
 def calc_and_show_stats(n=6, out_of=45, amount=100000):
     a = analyze_numbers(amount, n, out_of)
@@ -43,13 +46,22 @@ def calc_and_show_stats(n=6, out_of=45, amount=100000):
     for i in sorted(a.keys()):
         print(a[i], "\t", i, " \t", round(a[i] / total_amount * 100, 2), "%")
 
+
 # Benutzereingabe zum Experimentieren mit den Parametern und Starten der Analyse/n
 def activate_ui():
     n = 6
     out_of = 45
     amount = 100000
-    print(
-        "Lottozahlen Generator - manipuliere mit 'n <Zahl>', 'out_of <Zahl>', 'amount <Zahl>' oder starte die Analyse mit 'analyze'")
+    helptext = '''Lottozahlen Generator: 
+    Mit 'values' kannst du die aktuellen Einstellungen anzeigen lassen.
+    Manipuliere mit 'n <Zahl>', 'out_of <Zahl>', 'amount <Zahl>', 
+    oder starte die Analyse mit 'analyze'.
+    Mit 'generate' kannst du eine Ziehung generieren.
+    Mit 'generate -v' kannst du eine Ziehung mit Zwischenschritten generieren.
+    Mit 'exit' beendest du das Programm.
+    Mit 'help' kannst du diese Hilfe erneut anzeigen lassen.'''
+
+    print(helptext)
     s = input().strip()
     while s != "exit":
         if s != "":
@@ -57,18 +69,22 @@ def activate_ui():
                 if s.startswith("n"):
                     n = int(s.split(" ")[1])
                     print("n set to", n)
+                elif s == "values":
+                    print("Current settings: n =", n, ", out_of =", out_of, ", amount =", amount)
+                elif s == "help":
+                    print(helptext)
                 elif s.startswith("out_of"):
                     out_of = int(s.split(" ")[1])
                     print("out_of set to", out_of)
                 elif s.startswith("amount"):
                     amount = int(s.split(" ")[1])
                     print("amount set to", amount)
-                elif s.startswith("analyze"):
+                elif s == "analyze":
                     print("Analyzing", amount, "draws with", n, "out of", out_of)
                     calc_and_show_stats(n, out_of, amount)
-                elif s.startswith("generate -v"):
+                elif s == "generate -v":
                     print("Ordered:\t", sorted(get_numbers(n, out_of, True)))
-                elif s.startswith("generate"):
+                elif s == "generate":
                     print(sorted(get_numbers(n, out_of)))
                 else:
                     print("Unknown command")
@@ -78,9 +94,11 @@ def activate_ui():
                 print("the settings were set to an invalid Value:", e)
         s = input().strip()
 
+
 # Hauptmethode
 def main():
     activate_ui()
+
 
 # Programmstart
 if __name__ == "__main__":
