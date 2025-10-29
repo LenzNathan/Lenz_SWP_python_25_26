@@ -1,8 +1,8 @@
+import string
 # alle arten von list comprehensions
 # einmal mit if, ifelse, und einmal ohne
 # für dicts, sets und lists
 # beispiele überlegen
-from statsmodels.tools.sequences import primes_from_2_to
 
 # Does some list comprehensions and prints the results for practice
 def check_lcs():
@@ -35,10 +35,44 @@ def check_lcs():
     s = {x for x in range(1, 21) if x % 2 == 0}
     print(s)
 
+def alphabet_dict():
+    print("\nAlphabet dictionary:")
+    letters = string.ascii_lowercase + string.ascii_uppercase
+    #enumerate erstellt für alles einen index
+    letter_dict = {letter: index + 1 for index, letter in enumerate(letters)}
+    print(letter_dict)
+    return letter_dict
+    #chr(n) schaut in der ascii tabelle nach und findet das richtige char
+    #tuple sind immutable also unveränderlich, wenn man nur Daten Speichern will, kann man sie verwenden
+    #sind gegen Änderungen geschützt
+    #Iterable ist eine Datenstruktur, die einen Startwert hat und weiß wie das nächste Element zu errechnen ist
+    #dabei brauchen wir keine Zählvariable (speicherschonend)
+    #
 
 def main():
     check_lcs()
+    alphabet_dict()
 
 
 if __name__ == "__main__":
     main()
+    alphabet_dict()
+
+
+# mit list comprehensions die Funktionalität einer Set abbilden (dict/list -> set)
+# dict comprehension mit ergebnis: schlüssel sind die chars, 0-anzah der chars
+# {'a':1, 'b':2, ..., evtl. 'A':27, 'B':28, ...}
+
+# immutable (nicht veränderbar): sie können an der Speicherstelle nichtmehr verändert werden - wenn
+# sie codemäßig verändert werden, dann wird ein neuer Speicherplatz beschrieben und die Referenz aktualisiert
+
+# primitive Datentypen: immutable
+# listen: mutable
+# String: immutable
+# rest nachschauen (link in den Folien)
+
+# Seiteneffekt: globale Variablen werden von Methoden verändert, andere Methoden können durch diese Änderungen#
+# beeinflusst werden / crashen
+
+# funktionale programmierung: die gesamte Information wird durch Parameter übergeben, keine globalen Variablen
+# notwendig
