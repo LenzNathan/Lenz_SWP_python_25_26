@@ -10,10 +10,7 @@ def show_card(i):
     wert = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
     f = i % 4
     w = i // 4
-    if w == 8:
-        return farbe[f] + " " + wert[w]
-    else:
-        return farbe[f] + "  " + wert[w]
+    return farbe[f] + "  " + wert[w] if w != 8 else farbe[f] + " " + wert[w]
 
 
 # Gibt eine gesamte Hand mit Wert und Farbe der Karten zurück
@@ -28,10 +25,7 @@ def show_hand(hand):
 def print_deck():
     for i in range(0, 52, 4):
         for j in range(4):
-            if j == 0:
-                print(end="| ")
-            else:
-                print(end="    | ")
+            print(end="    | ") if j != 0 else print(end="| ")
 
             if i + j >= 10:
                 print(i + j, "| " + show_card(i + j), end=" |")
@@ -103,7 +97,8 @@ def analyze_hand(hand):
     if (hand[0] // 4) == (hand[1] // 4) - 1 == (hand[2] // 4) - 2 == (hand[3] // 4) - 3 == (hand[4] // 4) - 4:
         hand_state = "Straight"
         str = 0  # normaler Straight
-    if hand[4] // 4 == 12 and hand[3] //4 != 11 and hand_state != "One Pair" and hand_state != "Three of a Kind" and hand_state != "Four of a Kind" and hand_state != "Two Pair":
+    if hand[4] // 4 == 12 and hand[
+        3] // 4 != 11 and hand_state != "One Pair" and hand_state != "Three of a Kind" and hand_state != "Four of a Kind" and hand_state != "Two Pair":
         if hand[0] // 4 == 0 and hand[1] // 4 == 1 and hand[2] // 4 == 2 and hand[3] // 4 == 3:
             hand_state = "Straight"
             str = 1  # Straight mit wrapping A = 1
@@ -151,6 +146,7 @@ def analyze_hand(hand):
     return hand_state
 
 
+# Zieht eine gewisse Menge an Karten und gibt eine List zurück in der steht welche Kombination wie oft gezogen wurde
 def analyze_hands(amount):
     if amount <= 0:
         raise ValueError("Amount must be positive")
@@ -158,11 +154,7 @@ def analyze_hands(amount):
     # region Progress vars
     progress = 0
     print("0.00 %", end="\r", flush=True)
-    step = amount / 100
-    if amount >= 100_000:
-        step = amount / 1000  # bis zu 1 Kommastelle
-    if amount >= 1_000_000:
-        step = amount / 10000  # bis zu 2 Kommastellen
+    step = amount / 10000 if amount >= 1_000_000 else amount / 1000 if amount >= 100_000 else amount / 100
     # endregion
     for _ in range(amount):
         # region Fortschrittsanzeige
@@ -180,6 +172,7 @@ def analyze_hands(amount):
     return results
 
 
+# printet die Analyse für results in die Konsole, mit compare werden die Daten mit Wikipedia verglichen
 def visualize_analysis(results, compare=False):
     wikipedia_data = {
         "Royal Flush": 0.000154,
@@ -318,6 +311,7 @@ def main():
     ui()
 
 
+# ein paar tests um die Funktionalität zu testen (auch hier hatte ich zuvor Fehler)
 def run_tests():
     # Test cases for analyze_hand function
     test_hands_straight = [

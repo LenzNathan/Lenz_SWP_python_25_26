@@ -1,6 +1,5 @@
 import random
 
-
 # Generiert n eindeutige Zufallszahlen aus dem Bereich 1 bis out_of (inklusive)
 def get_numbers(n=6, out_of=45, verbose=False):
     if n > out_of:

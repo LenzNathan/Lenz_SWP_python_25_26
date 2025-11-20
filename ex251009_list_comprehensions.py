@@ -1,4 +1,6 @@
 import string
+
+
 # alle arten von list comprehensions
 # einmal mit if, ifelse, und einmal ohne
 # für dicts, sets und lists
@@ -35,19 +37,21 @@ def check_lcs():
     s = {x for x in range(1, 21) if x % 2 == 0}
     print(s)
 
+
 def alphabet_dict():
     print("\nAlphabet dictionary:")
     letters = string.ascii_lowercase + string.ascii_uppercase
-    #enumerate erstellt für alles einen index
+    # enumerate erstellt für alles einen index
     letter_dict = {letter: index + 1 for index, letter in enumerate(letters)}
     print(letter_dict)
     return letter_dict
-    #chr(n) schaut in der ascii tabelle nach und findet das richtige char
-    #tuple sind immutable also unveränderlich, wenn man nur Daten Speichern will, kann man sie verwenden
-    #sind gegen Änderungen geschützt
-    #Iterable ist eine Datenstruktur, die einen Startwert hat und weiß wie das nächste Element zu errechnen ist
-    #dabei brauchen wir keine Zählvariable (speicherschonend)
+    # chr(n) schaut in der ascii tabelle nach und findet das richtige char
+    # tuple sind immutable also unveränderlich, wenn man nur Daten Speichern will, kann man sie verwenden
+    # sind gegen Änderungen geschützt
+    # Iterable ist eine Datenstruktur, die einen Startwert hat und weiß wie das nächste Element zu errechnen ist
+    # dabei brauchen wir keine Zählvariable (speicherschonend)
     #
+
 
 def main():
     check_lcs()
@@ -57,7 +61,6 @@ def main():
 if __name__ == "__main__":
     main()
     alphabet_dict()
-
 
 # mit list comprehensions die Funktionalität einer Set abbilden (dict/list -> set)
 # dict comprehension mit ergebnis: schlüssel sind die chars, 0-anzah der chars
@@ -71,8 +74,19 @@ if __name__ == "__main__":
 # String: immutable
 # rest nachschauen (link in den Folien)
 
-# Seiteneffekt: globale Variablen werden von Methoden verändert, andere Methoden können durch diese Änderungen#
+# Seiteneffekt: globale Variablen werden von Methoden verändert, andere Methoden können durch diese Änderungen
 # beeinflusst werden / crashen
 
 # funktionale programmierung: die gesamte Information wird durch Parameter übergeben, keine globalen Variablen
 # notwendig
+
+
+rset = {"apple", "banana", "cherry", "date", "apple", "elderberry", "fig", "cherry"}
+rset.add("banana") # Veränderbar
+rtuple = ("apple", "banana", "cherry", "date", "apple", "elderberry", "fig", "cherry") #unveränderbar
+rlist = ["apple", "banana", "cherry", "date", "apple", "elderberry", "fig", "cherry"] # Veränderbar
+rlist.append("banana")
+print(rset)
+print(rtuple)
+print(rlist)
+
