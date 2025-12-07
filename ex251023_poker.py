@@ -1,4 +1,7 @@
 import random
+from typing import assert_type
+
+import pytest
 
 
 # Aufgabe: zufällige Pokerhände analysieren und bewerten
@@ -6,6 +9,8 @@ import random
 
 # Gibt den Wert und die Farbe der Karte zurück
 def show_card(i):
+    if type(i) != int or i < 0 or i >= 52:
+        raise ValueError("Card index must be int between 0 and 51")
     farbe = ('Herz', 'Karo', 'Kreuz', 'Pik')
     wert = ('2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', 'A')
     f = i % 4
@@ -392,3 +397,44 @@ if __name__ == "__main__":
     run_tests()
     print_deck()
     main()
+
+#region pytest tests
+
+def test_show_card():
+    assert show_card(0) == "Herz  2"
+    assert show_card(1) == "Karo  2"
+    assert show_card(2) == "Kreuz  2"
+    assert show_card(3) == "Pik  2"
+    assert show_card(32) == "Herz 10"
+    assert show_card(33) == "Karo 10"
+    assert show_card(34) == "Kreuz 10"
+    assert show_card(35) == "Pik 10"
+    assert show_card(51) == "Pik  A"
+    with pytest.raises(ValueError): show_card(-1)
+    with pytest.raises(ValueError): show_card(52)
+    with pytest.raises(ValueError): show_card("meow")
+    with pytest.raises(ValueError): show_card(3.1415)
+
+def test_analyze_hand():
+    assert analyze_hand([40, 44, 49, 0, 10]) == "High Card"
+    assert analyze_hand([37, 43, 48, 49, 1]) == "One Pair"
+    assert analyze_hand([0, 1, 4, 5, 10]) == "Two Pair"
+    assert analyze_hand([0, 1, 2, 5, 10]) == "Three of a Kind"
+    assert analyze_hand([0, 1, 2, 3, 4]) == "Four of a Kind"
+    assert analyze_hand([0, 1, 2, 4, 5]) == "Full House"
+    assert analyze_hand([0, 4, 8, 12, 17]) == "Straight"
+    assert analyze_hand([0, 4, 8, 12, 20]) == "Flush"
+    assert analyze_hand([0, 4, 8, 12, 16]) == "Straight Flush"
+    with pytest.raises(ValueError): analyze_hand([0, 1, 2])
+    with pytest.raises(ValueError): analyze_hand([0, 1, 2, 3, 3])
+    with pytest.raises(ValueError): analyze_hand([0, 1, 2, 3, 4, 5])
+    with pytest.raises(ValueError): analyze_hand(["a", "b", "c"])
+
+def test_draw_hand():
+    hand = draw_hand()
+    assert len(hand) == 5
+    assert len(set(hand)) == 5
+    for card in hand:
+        assert 0 <= card < 52
+
+#endregion
