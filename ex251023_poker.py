@@ -1,5 +1,6 @@
 import random
 from typing import assert_type
+from timing_decorators import timed
 
 import pytest
 
@@ -8,6 +9,7 @@ import pytest
 # Kombinationen mit Wikipedia abgleichen
 
 # Gibt den Wert und die Farbe der Karte zurück
+#@timed
 def show_card(i):
     if type(i) != int or i < 0 or i >= 52:
         raise ValueError("Card index must be int between 0 and 51")
@@ -19,6 +21,7 @@ def show_card(i):
 
 
 # Gibt eine gesamte Hand mit Wert und Farbe der Karten zurück
+@timed
 def show_hand(hand):
     s = ""
     for i in hand:
@@ -27,6 +30,7 @@ def show_hand(hand):
 
 
 # Druckt das gesamte Kartendeck in leserlicher Form mit den entsprechenden Indizes
+@timed
 def print_deck():
     for i in range(0, 52, 4):
         for j in range(4):
@@ -40,6 +44,7 @@ def print_deck():
 
 
 # Zieht eine zufällige Pokerhand (5 Karten) aus dem Deck
+#@timed
 def draw_hand():
     deck = list(range(52))
     random.shuffle(deck)
@@ -48,6 +53,7 @@ def draw_hand():
 
 
 # gibt zurück, was man auf der Hand hat
+#@timed
 def analyze_hand(hand):
     # region Eingabevalidierung
     if len(hand) != 5:
@@ -152,6 +158,7 @@ def analyze_hand(hand):
 
 
 # Zieht eine gewisse Menge an Karten und gibt eine List zurück in der steht welche Kombination wie oft gezogen wurde
+@timed
 def analyze_hands(amount):
     if amount <= 0:
         raise ValueError("Amount must be positive")
@@ -178,6 +185,7 @@ def analyze_hands(amount):
 
 
 # printet die Analyse für results in die Konsole, mit compare werden die Daten mit Wikipedia verglichen
+@timed
 def visualize_analysis(results, compare=False):
     wikipedia_data = {
         "Royal Flush": 0.000154,
@@ -210,6 +218,7 @@ def visualize_analysis(results, compare=False):
 
 
 # Einfache Benutzeroberfläche zum Interagieren mit dem Programm
+@timed
 def ui():
     print("Welcome to poker!")
     print("Available commands: help, deck, draw, show, amount <number>, setup or amount, analyze -c, review -c, exit.",
@@ -311,12 +320,13 @@ def ui():
                     print("Unknown command. Type 'help' for a list of commands.")
         print()
 
-
+@timed
 def main():
     ui()
 
 
 # ein paar tests um die Funktionalität zu testen (auch hier hatte ich zuvor Fehler)
+@timed
 def run_tests():
     # Test cases for analyze_hand function
     test_hands_straight = [
@@ -400,6 +410,7 @@ if __name__ == "__main__":
 
 #region pytest tests
 
+@timed
 def test_show_card():
     assert show_card(0) == "Herz  2"
     assert show_card(1) == "Karo  2"
@@ -415,6 +426,7 @@ def test_show_card():
     with pytest.raises(ValueError): show_card("meow")
     with pytest.raises(ValueError): show_card(3.1415)
 
+@timed
 def test_analyze_hand():
     assert analyze_hand([40, 44, 49, 0, 10]) == "High Card"
     assert analyze_hand([37, 43, 48, 49, 1]) == "One Pair"
@@ -430,6 +442,7 @@ def test_analyze_hand():
     with pytest.raises(ValueError): analyze_hand([0, 1, 2, 3, 4, 5])
     with pytest.raises(ValueError): analyze_hand(["a", "b", "c"])
 
+@timed
 def test_draw_hand():
     hand = draw_hand()
     assert len(hand) == 5
